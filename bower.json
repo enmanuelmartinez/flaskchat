@@ -1,0 +1,12 @@
+{
+  "name": "flaskchat",
+  "authors": [
+    "Enmanuel Martinez <enmanuel.martinez.g@gmail.com>"
+  ],
+  "description": "A webchat application sample using flask python webframework with socket io.",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true
+}

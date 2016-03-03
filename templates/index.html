@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .commentArea {
+            font: 14px Arial;
+            padding: 0 10px;
+            margin-top: 20px;
+            overflow-y: scroll;
+            max-height: 488px !important;
+        }
+        .bubbledLeft,.bubbledRight {
+            margin-top: 20px;
+            padding: 5px 9px;
+            max-width: 50%;
+            clear: both;
+            position: relative;
+        }
+        .bubbledLeft{
+            float: left;
+            margin-right: auto;
+            -webkit-border-radius: 8px 8px 8px 0px;
+            -moz-border-radius: 8px 8px 8px 0px;
+            -o-border-radius: 8px 8px 8px 0px;
+            -ms-border-radius: 8px 8px 8px 0px;
+            border-radius: 8px 8px 8px 0px;
+            background-color: #65B045;
+            color: #ffffff;
+        }
+        .bubbledLeft:before {
+            border-bottom: 10px solid #65B045;
+            border-left: 9px solid rgba(0, 0, 0, 0);
+            position: absolute;
+            bottom: 0;
+            left: -8px;
+            content: "";
+        }
+        .bubbledRight{
+            float: right;
+            margin-left: auto;
+            text-align: right;
+            -webkit-border-radius: 8px 8px 0px 8px;
+            -moz-border-radius: 8px 8px 0px 8px;
+            -o-border-radius: 8px 8px 0px 8px;
+            -ms-border-radius: 8px 8px 0px 8px;
+            border-radius: 8px 8px 0px 8px;
+            background-color: #07D;
+            color: white;
+        }
+        .bubbledRight:before {
+            border-bottom: 9px solid #07D;
+            border-right: 9px solid rgba(0, 0, 0, 0);
+            position: absolute;
+            bottom: 0;
+            right: -8px;
+            content: "";
+        }
+        #message{
+            width: 100%;
+        }
+        form{
+            padding-top: 10px;
+        }
+    </style>
+    <script>
+        var ws = null;
+        if("WebSocket" in window){
+            ws = new WebSocket("ws://127.0.0.1:8887");
+            ws.onopen = function (evt) {
+               console.log("Connection opened");
+                console.log(evt);
+               ws.send("hello world");
+                alert('On Open');
+            }
+            ws.onclose = function (evt) {
+                console.log("Connection closed");
+                console.log(evt);
+                var error ="Code: "+ evt.code + " " + evt.reason;
+                alert('Conexion Cerrada.'  + error);
+            }
+            ws.onmessage = function (evt) {
+                console.info("Received "+evt.data);
+                alert('Mensaje recibido :' + evt.data);
+                //ws.close();
+            }
+            ws.onerror = function (evt) {
+               console.error("Error");
+                console.log(evt);
+                alert('On error');
+            }
+        }else{
+            alert('Webbrowser doesnt support Websocket!.');
+        }
+    </script>
+
+</head>
+<body>
+
+<div style="width: 400px">
+    <div class="commentArea">
+        <div class="bubbledRight">
+            Error dicunt theophrastus cu qui. Ad eos simul possit option, adipisci principes sed at. Detracto adolescens pro ea, duo no
+        </div>
+        <div class="bubbledLeft">
+            Lorem ipsum dolor sit amet, ea oblique constituam signiferumque eam. Pri adipisci maluisset te.
+        </div>
+
+        <!-- -->
+    </div>
+
+    <br>
+    <form id="form" name="form">
+     <textarea name="message" id="message" placeholder="Message" rows="8" cols="40"> </textarea>
+        <br>
+     <button type="submit">Enviar Mensaje</button>
+    </form>
+</div>
+
+
+<script>
+    document.getElementById("form").addEventListener("submit", function(e){
+        e.preventDefault();    //stop form from submitting
+        var message = document.getElementById('message').value;
+        ws.send(message);
+        return false;
+    });
+</script>
+</body>
+</html>

@@ -8,5 +8,8 @@
   "moduleType": [],
   "license": "MIT",
   "homepage": "",
-  "private": true
+  "private": true,
+  "dependencies": {
+   "bootstrap": "*"
+  }
 }

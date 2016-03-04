@@ -1,16 +1,25 @@
 <!doctype html>
-<title>My Application</title>
+<html>
+    <head>
+        <title>Flask Chat</title>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+       {% endwith %}
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+       {% block content %}
 
-{% block body %}
+       {% endblock %}
+     
+     <script type="text/javascript" src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+     <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-{% endblock %}
+    </body>
+</html>

@@ -10,7 +10,6 @@
   "homepage": "",
   "private": true,
   "dependencies": {
-   "bootstrap": "*",
-   "socket.io-client": "*"
+   "bootstrap": "*"
   }
 }

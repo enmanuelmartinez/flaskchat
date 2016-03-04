@@ -8,7 +8,7 @@ app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'secret!'
 
 async_mode = None
-'''if async_mode is None:
+if async_mode is None:
     try:
         import eventlet
         async_mode = 'eventlet'
@@ -25,7 +25,7 @@ async_mode = None
     if async_mode is None:
         async_mode = 'threading'
 
-    print('async_mode is ' + async_mode)'''
+    print('async_mode is ' + async_mode)
 
 socketio = SocketIO(app, async_mode=async_mode)
 
@@ -64,10 +64,6 @@ def test_connect():
 def test_disconnect():
     print('Client disconnected')
 
-@socketio.on_error_default  # handles all namespaces without an explicit error handler
-def default_error_handler(e):
-    pass
-
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    app.run(debug=True)

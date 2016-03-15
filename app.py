@@ -48,19 +48,48 @@ def page_not_found(error):
 
 # SocketIO
 
-@socketio.on('my event', namespace='/test')
+@socketio.on('message')
+def handle_message(message):
+    print('received message: ' + message)
+
+@socketio.on('my event')
 def test_message(message):
     emit('my response', {'data': message['data']})
 
-@socketio.on('my broadcast event', namespace='/test')
+@socketio.on('my broadcast event')
 def test_message(message):
     emit('my response', {'data': message['data']}, broadcast=True)
 
-@socketio.on('connect', namespace='/test')
-def test_connect():
-    emit('my response', {'data': 'Connected'})
+@socketio.on('join')
+def join(message):
+    join_room(message['room'])
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my response',
+         {'data': 'In rooms: ' + ', '.join(rooms()),
+          'count': session['receive_count']})
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('leave')
+def leave(message):
+    leave_room(message['room'])
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my response',
+         {'data': 'In rooms: ' + ', '.join(rooms()),
+          'count': session['receive_count']})
+
+@socketio.on('close room')
+def close(message):
+    session['receive_count'] = session.get('receive_count', 0) + 1
+    emit('my response', {'data': 'Room ' + message['room'] + ' is closing.',
+                         'count': session['receive_count']},
+         room=message['room'])
+    close_room(message['room'])
+
+@socketio.on('connect')
+def test_connect():
+    emit('message', {'data': 888888})
+    emit('klk', {'data': 42})
+
+@socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
 

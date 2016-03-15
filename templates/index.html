@@ -78,11 +78,18 @@
         });
         // Add a connect listener
         socket.on('message',function(data) {
-            console.log('Received a message from the server!',data);
+            console.log('Received a message from the server!');
+            console.log(data);
         });
         // Add a disconnect listener
         socket.on('disconnect',function() {
             console.log('The client has disconnected!');
+        });
+
+        //Add a connect listener
+        socket.on('klk',function(data) {
+            console.log('KLk data!!');
+            console.log(data);
         });
 
         // Sends a message to the server via sockets
@@ -152,7 +159,7 @@
     document.getElementById("form").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
         var message = document.getElementById('message').value;
-        ws.send(message);
+        sendMessageToServer(message);
         return false;
     });
 </script>

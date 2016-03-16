@@ -3,6 +3,7 @@
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
 from werkzeug import check_password_hash, generate_password_hash
 
+from .models import User
 from .forms import LoginForm
 
 
@@ -21,4 +22,4 @@ def signin():
 
         flash('Wrong email or password', 'error-message')
 
-    return render_template("auth/signin.html", form=form)
+    return render_template("auth/login.html", form=form)

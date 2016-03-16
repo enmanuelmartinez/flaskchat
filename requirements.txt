@@ -2,4 +2,5 @@ flask
 Flask-WTF
 flask-sqlalchemy
 flask-socketio
+gevent-websocket
 

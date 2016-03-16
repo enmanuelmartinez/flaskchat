@@ -1,11 +1,16 @@
-from flask import Blueprint
-from app import app
+from flask import Blueprint, render_template
+from app import socketio, app
 
 
 mod_chat = Blueprint('chat', __name__, url_prefix='/chat')
 
 # SocketIO
-'''
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template("index.html")
+
+
 @socketio.on('message')
 def handle_message(message):
     print('received message: ' + message)
@@ -53,4 +58,4 @@ def test_disconnect():
 
 @socketio.on_error_default  # handles all namespaces without an explicit error handler
 def default_error_handler(e):
-    pass'''
+    pass

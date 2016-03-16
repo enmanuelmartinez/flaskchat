@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.socketio import SocketIO
 
 # Define the WSGI application object
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # Configurations
 app.config.from_object('config')
@@ -19,23 +19,9 @@ db = SQLAlchemy(app)
 def not_found(error):
     return render_template('404.html'), 404
 
-# Import a module / component using its blueprint handler variable (mod_auth)
-from app.auth.controllers import mod_auth as auth_module
-from app.chat.controllers import mod_chat as chat_module
-
-# Register blueprint(s)
-app.register_blueprint(auth_module)
-app.register_blueprint(chat_module)
-
-# Build the database:
-# This will create the database file using SQLAlchemy
-#db.create_all()
-
-app = Flask(__name__, static_url_path='/static')
-app.config['SECRET_KEY'] = 'secret!'
 
 async_mode = None
-'''if async_mode is None:
+if async_mode is None:
     try:
         import eventlet
         async_mode = 'eventlet'
@@ -52,7 +38,16 @@ async_mode = None
     if async_mode is None:
         async_mode = 'threading'
 
-    print('async_mode is ' + async_mode)'''
+    print('async_mode is ' + async_mode)
 
 
 socketio = SocketIO(app, async_mode=async_mode)
+
+# Import a module / component using its blueprint handler variable (mod_auth)
+from app.auth.controllers import mod_auth as auth_module
+from app.chat.controllers import mod_chat as chat_module
+
+# Register blueprint(s)
+app.register_blueprint(auth_module)
+app.register_blueprint(chat_module)
+

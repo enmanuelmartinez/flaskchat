@@ -12,7 +12,7 @@ mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 @mod_auth.route('/signin/', methods=['GET', 'POST'])
 def signin():
     form = LoginForm(request.form)
-    # Verify the sign in form
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
